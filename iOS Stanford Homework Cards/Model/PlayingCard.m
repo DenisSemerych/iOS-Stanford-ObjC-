@@ -49,4 +49,23 @@
     }
 }
 
+-(int)match: (NSArray *)otherCards {
+    
+    int score = 0;
+    
+    for (PlayingCard *card in otherCards) {
+        if ([self.suit isEqualToString:card.suit]) {
+            self.matched = YES;
+            card.matched = YES;
+            score += 1;
+        }
+        if (self.rank == card.rank) {
+            self.matched = YES;
+            card.matched = YES;
+            score += 4;
+        }
+    }
+    
+    return score;
+}
 @end

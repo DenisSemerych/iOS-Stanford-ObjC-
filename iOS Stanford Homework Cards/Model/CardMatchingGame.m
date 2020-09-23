@@ -77,7 +77,7 @@ static const int MAX_ALLOWED_CARDS_TO_COMPARE = 3;
         } else {
             self.score -= MISMATCH_PENALTY;
         }
-        
+            
         self.score = self.score;
         
         for (Card *card in self.cards) {
