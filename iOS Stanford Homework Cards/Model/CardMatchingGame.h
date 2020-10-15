@@ -11,15 +11,18 @@
 
 #import <Foundation/Foundation.h>
 #import "Deck.h"
+#import "GameMove.h"
 
 @interface CardMatchingGame : NSObject
 
 // disignated
 - (instancetype)initWithCardCount:(NSUInteger) count usingDeck:(Deck *) deck;
+- (void)setMaxSelectedCardsCount:(NSUInteger) count;
 - (void)choseCardAtIndex: (NSUInteger) index;
 - (Card *)cardAtIndex: (NSUInteger) index;
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic, readonly) NSArray<GameMove *> *gameHistory;
 
 @end
 

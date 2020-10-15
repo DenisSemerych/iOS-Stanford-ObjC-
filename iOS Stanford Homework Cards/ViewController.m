@@ -16,6 +16,10 @@
 @property (nonatomic, strong) Deck *deck;
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeControl;
+@property (weak, nonatomic) IBOutlet UILabel *gameMoveLabel;
+
+- (void)setGameMoveInfoTextFromMove:(GameMove *) move;
 
 - (NSString *)titleForCard:(Card *)card;
 - (UIImage *)backgroundImageForCard:(Card *)card;
@@ -42,10 +46,27 @@
     [super viewDidLoad];
 }
 
+- (IBAction)segmentSelected:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 0) {
+        [self.game setMaxSelectedCardsCount:2];
+    } else {
+        [self.game setMaxSelectedCardsCount:3];
+    }
+}
+
 - (IBAction)touchCardButton:(UIButton *)sender
 {
     NSUInteger cardIndex = [self.cardButtons indexOfObject:sender];
     [self.game choseCardAtIndex:cardIndex];
+    [self updateUI];
+    [self.gameModeControl setEnabled:false];
+}
+
+- (IBAction)resetGame:(UIButton *)sender {
+    self.deck = nil;
+    self.game = nil;
+    
+    [self.gameModeControl setEnabled:true];
     [self updateUI];
 }
 
@@ -60,7 +81,12 @@
         
         button.enabled = !card.isMatched;
     }
+    
     [self.scoreLabel setText:[NSString stringWithFormat:@"Score: %ld", self.game.score]];
+    GameMove *move = self.game.gameHistory.lastObject;
+    if (move) {
+        [self setGameMoveInfoTextFromMove:move];
+    }
 }
 
 - (NSString *)titleForCard:(Card *)card
@@ -71,6 +97,22 @@
 - (UIImage *)backgroundImageForCard:(Card *)card
 {
     return [UIImage imageNamed:card.isChosen ? @"card_front" : @"card_back"];
+}
+
+- (void)setGameMoveInfoTextFromMove:(GameMove *)move
+{
+    NSString *text;
+    if (move.result == GAME_MOVE_PENDING) {
+        text = [NSString stringWithFormat: @"%@", move.cardsInMove];
+    } else if (move.result == GAME_MOVE_FAILED) {
+        text = [NSString stringWithFormat: @"%@ don’t match! %ld point penalty!",
+                move.cardsInMove, (long)move.points];
+    } else if (move.result == GAME_MOVE_SUCCESS) {
+        text = [NSString stringWithFormat:@"Matched %@ for %ld points!",
+                move.cardsInMove, move.points];
+    }
+    
+    [self.gameMoveLabel setText:text];
 }
 
 @end

@@ -18,6 +18,7 @@
 		E8874AD825114FBF00AB09C7 /* PlayingCard.m in Sources */ = {isa = PBXBuildFile; fileRef = E8874AD725114FBF00AB09C7 /* PlayingCard.m */; };
 		E8874ADB2511557D00AB09C7 /* PlayingCardDeck.m in Sources */ = {isa = PBXBuildFile; fileRef = E8874ADA2511557D00AB09C7 /* PlayingCardDeck.m */; };
 		E8874ADD2511601700AB09C7 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = E8874ADC2511601700AB09C7 /* Card.m */; };
+		E8A1DFC72537BB24002C826D /* GameMove.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A1DFC62537BB24002C826D /* GameMove.m */; };
 		E8D08F44251A97B100B514B3 /* CardMatchingGame.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D08F43251A97B100B514B3 /* CardMatchingGame.m */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,8 @@
 		E8874AD92511552E00AB09C7 /* PlaingCardDeck.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaingCardDeck.h; sourceTree = "<group>"; };
 		E8874ADA2511557D00AB09C7 /* PlayingCardDeck.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayingCardDeck.m; sourceTree = "<group>"; };
 		E8874ADC2511601700AB09C7 /* Card.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
+		E8A1DFC52537B68C002C826D /* GameMove.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMove.h; sourceTree = "<group>"; };
+		E8A1DFC62537BB24002C826D /* GameMove.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameMove.m; sourceTree = "<group>"; };
 		E8D08F43251A97B100B514B3 /* CardMatchingGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardMatchingGame.m; sourceTree = "<group>"; };
 		E8D08F46251A97C900B514B3 /* CardMatchingGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardMatchingGame.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +116,8 @@
 				E8874ADC2511601700AB09C7 /* Card.m */,
 				E8D08F43251A97B100B514B3 /* CardMatchingGame.m */,
 				E8D08F46251A97C900B514B3 /* CardMatchingGame.h */,
+				E8A1DFC52537B68C002C826D /* GameMove.h */,
+				E8A1DFC62537BB24002C826D /* GameMove.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 				E8D08F44251A97B100B514B3 /* CardMatchingGame.m in Sources */,
 				E8874ADD2511601700AB09C7 /* Card.m in Sources */,
 				E8874ABB2511494200AB09C7 /* AppDelegate.m in Sources */,
+				E8A1DFC72537BB24002C826D /* GameMove.m in Sources */,
 				E8874ADB2511557D00AB09C7 /* PlayingCardDeck.m in Sources */,
 				E8874ACC2511494900AB09C7 /* main.m in Sources */,
 				E8874ABE2511494200AB09C7 /* SceneDelegate.m in Sources */,

@@ -53,16 +53,19 @@
     
     int score = 0;
     
-    for (PlayingCard *card in otherCards) {
-        if ([self.suit isEqualToString:card.suit]) {
-            self.matched = YES;
-            card.matched = YES;
-            score += 1;
-        }
-        if (self.rank == card.rank) {
-            self.matched = YES;
-            card.matched = YES;
-            score += 4;
+    for (id obj in otherCards) {
+        if ([obj isKindOfClass: [PlayingCard class]]) {
+            PlayingCard *card = (PlayingCard *)obj;
+            if ([self.suit isEqualToString:card.suit]) {
+                self.matched = YES;
+                card.matched = YES;
+                score += 1;
+            }
+            if (self.rank == card.rank) {
+                self.matched = YES;
+                card.matched = YES;
+                score += 4;
+            }
         }
     }
     

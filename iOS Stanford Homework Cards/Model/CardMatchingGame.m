@@ -8,12 +8,18 @@
 
 #import "CardMatchingGame.h"
 
+#define MATCH_BONUS(int) int == 2 ? 6 : 4
+#define MISMATCH_PENALTY(int) int == 2 ? 1 : 2
+#define COST_TO_CHOSE  1
+
 @interface CardMatchingGame()
 
 @property (nonatomic, readwrite) NSInteger score;
 
 @property (nonatomic, strong) NSMutableArray *cards;
 @property (nonatomic, strong) NSMutableArray *selectedCards;
+@property (nonatomic) NSUInteger maxAllowedCardsToCompare;
+@property (nonatomic, strong) NSMutableArray<GameMove *> *internalGameHistory;
 
 -(int)matchCard:(Card *)card withSelected:(NSMutableArray *)cards;
 
@@ -21,15 +27,27 @@
 
 @implementation CardMatchingGame
 
-static const int MATCH_BONUS = 4;
-static const int MISMATCH_PENALTY = 2;
-static const int COST_TO_CHOSE = 1;
-static const int MAX_ALLOWED_CARDS_TO_COMPARE = 3;
+- (NSArray<GameMove *> *)gameHistory
+{
+    return  [self.internalGameHistory copy];
+}
+
+- (NSMutableArray<GameMove *> *)internalGameHistory
+{
+    if (!_internalGameHistory) _internalGameHistory = [[NSMutableArray alloc] init];
+    return _internalGameHistory;
+}
 
 - (NSMutableArray *)cards
 {
     if (!_cards) _cards = [[NSMutableArray alloc] init];
     return _cards;
+}
+
+- (NSUInteger)maxAllowedCardsToCompare
+{
+    if (!_maxAllowedCardsToCompare) _maxAllowedCardsToCompare = 2;
+    return _maxAllowedCardsToCompare;
 }
 
 - (NSMutableArray *)selectedCards
@@ -62,20 +80,40 @@ static const int MAX_ALLOWED_CARDS_TO_COMPARE = 3;
     return (index < self.cards.count) ? self.cards[index] : nil;
 }
 
+- (void)setMaxSelectedCardsCount:(NSUInteger)count
+{
+    self.maxAllowedCardsToCompare = count;
+}
+
 - (void)choseCardAtIndex:(NSUInteger)index
 {
     Card *chonsenCard = [self.cards objectAtIndex:index];
+    
+    GameMove *move = [self.internalGameHistory lastObject];
+    if (!(move.result == GAME_MOVE_PENDING)) {
+        move = [[GameMove alloc] init];
+        move.result = GAME_MOVE_PENDING;
+        [self.internalGameHistory addObject:move];
+    }
+    
+    [move.cardsInMove appendString:chonsenCard.contents];
+    
     chonsenCard.chosen = !chonsenCard.isChosen;
     self.score -= COST_TO_CHOSE;
     
-    if (self.selectedCards.count + 1 == MAX_ALLOWED_CARDS_TO_COMPARE && chonsenCard.isChosen) {
+    if (self.selectedCards.count + 1 == self.maxAllowedCardsToCompare && chonsenCard.isChosen) {
         
         int matchResult = [self matchCard:chonsenCard withSelected:self.selectedCards];
         
         if (matchResult) {
-            self.score += matchResult * MATCH_BONUS;
+            NSInteger moveScore = matchResult * MATCH_BONUS(self.maxAllowedCardsToCompare);
+            self.score += moveScore;
+            move.points = moveScore;
+            move.result = GAME_MOVE_SUCCESS;
         } else {
-            self.score -= MISMATCH_PENALTY;
+            self.score -= MISMATCH_PENALTY(self.maxAllowedCardsToCompare);
+            move.points = MISMATCH_PENALTY(self.maxAllowedCardsToCompare);
+            move.result = GAME_MOVE_FAILED;
         }
             
         self.score = self.score;
@@ -105,7 +143,5 @@ static const int MAX_ALLOWED_CARDS_TO_COMPARE = 3;
     
     return result;
 }
-
-
 
 @end
